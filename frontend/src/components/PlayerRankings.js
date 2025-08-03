@@ -16,7 +16,7 @@ const PlayerRankings = ({ position }) => {
       setError(null);
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/${position}`);
+        const response = await axios.get(`/api/${position}`);
         setPlayers(response.data.data);
       } catch (err) {
         setError('Failed to fetch player rankings. Please try again.');

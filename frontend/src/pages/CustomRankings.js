@@ -48,7 +48,7 @@ const CustomRankings = () => {
         const fetchADPData = async (position) => {
             try {
                 setLoading(prev => ({ ...prev, [position]: true }));
-                const response = await axios.get(`http://localhost:5000/api/adp/${position}`);
+                const response = await axios.get(`/api/adp/${position}`);
 
                 if (response.data.success) {
                     // Check if we have saved rankings for this position
@@ -109,7 +109,7 @@ const CustomRankings = () => {
     const resetToADP = async (position) => {
         try {
             setLoading(prev => ({ ...prev, [position]: true }));
-            const response = await axios.get(`http://localhost:5000/api/adp/${position}`);
+            const response = await axios.get(`/api/adp/${position}`);
 
             if (response.data.success) {
                 setPlayers(prev => ({

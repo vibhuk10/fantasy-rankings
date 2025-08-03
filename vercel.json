@@ -1,0 +1,38 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "frontend/package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "build"
+            }
+        }
+    ],
+    "routes": [
+        {
+            "src": "/api/qb",
+            "dest": "/api/qb.js"
+        },
+        {
+            "src": "/api/rb",
+            "dest": "/api/rb.js"
+        },
+        {
+            "src": "/api/wr",
+            "dest": "/api/wr.js"
+        },
+        {
+            "src": "/api/te",
+            "dest": "/api/te.js"
+        },
+        {
+            "src": "/api/adp/(.*)",
+            "dest": "/api/adp/$1.js"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/frontend/$1"
+        }
+    ]
+}
