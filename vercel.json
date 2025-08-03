@@ -7,16 +7,44 @@
             "config": {
                 "distDir": "build"
             }
-        },
-        {
-            "src": "backend/package.json",
-            "use": "@vercel/node"
         }
     ],
     "routes": [
         {
-            "src": "/api/(.*)",
-            "dest": "/api/index.js"
+            "src": "/api/hello",
+            "dest": "/api/hello.js"
+        },
+        {
+            "src": "/api/qb",
+            "dest": "/api/qb.js"
+        },
+        {
+            "src": "/api/rb",
+            "dest": "/api/rb.js"
+        },
+        {
+            "src": "/api/wr",
+            "dest": "/api/wr.js"
+        },
+        {
+            "src": "/api/te",
+            "dest": "/api/te.js"
+        },
+        {
+            "src": "/api/adp/qb",
+            "dest": "/api/adp/qb.js"
+        },
+        {
+            "src": "/api/adp/rb",
+            "dest": "/api/adp/rb.js"
+        },
+        {
+            "src": "/api/adp/wr",
+            "dest": "/api/adp/wr.js"
+        },
+        {
+            "src": "/api/adp/te",
+            "dest": "/api/adp/te.js"
         },
         {
             "src": "/(.*)",
