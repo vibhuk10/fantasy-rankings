@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Football Rankings - Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            color: #333;
+            margin: 0 0 10px 0;
+        }
+        .position-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .position-btn {
+            padding: 12px 24px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .position-btn:hover, .position-btn.active {
+            background: #667eea;
+            color: white;
+        }
+        .rankings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .rankings-table th {
+            background: #f8f9fa;
+            padding: 15px 10px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        .rankings-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid #f1f3f4;
+        }
+        .rank {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        .rank-top { background: linear-gradient(135deg, #ffd700, #ffed4e); color: #333; }
+        .rank-high { background: linear-gradient(135deg, #c0c0c0, #e5e5e5); color: #333; }
+        .rank-normal { background: linear-gradient(135deg, #cd7f32, #daa520); color: white; }
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+        .error {
+            text-align: center;
+            padding: 50px;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏈 Fantasy Football Rankings</h1>
+            <p>Advanced Analytics & Player Rankings for the 2024 Season</p>
+        </div>
+        
+        <div class="position-buttons">
+            <button class="position-btn active" onclick="loadRankings('qb')">Quarterback (QB)</button>
+            <button class="position-btn" onclick="loadRankings('rb')">Running Back (RB)</button>
+            <button class="position-btn" onclick="loadRankings('wr')">Wide Receiver (WR)</button>
+            <button class="position-btn" onclick="loadRankings('te')">Tight End (TE)</button>
+        </div>
+        
+        <div id="rankings-container">
+            <div class="loading">Loading rankings...</div>
+        </div>
+    </div>
+
+    <script>
+        let currentPosition = 'qb';
+        
+        function updateButtons(position) {
+            document.querySelectorAll('.position-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        async function loadRankings(position) {
+            currentPosition = position;
+            updateButtons(position);
+            
+            const container = document.getElementById('rankings-container');
+            container.innerHTML = '<div class="loading">Loading rankings...</div>';
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/${position}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayRankings(data.data, position);
+                } else {
+                    container.innerHTML = '<div class="error">Failed to load rankings</div>';
+                }
+            } catch (error) {
+                container.innerHTML = '<div class="error">Error: Backend server not running. Please start the backend server first.</div>';
+            }
+        }
+        
+        function displayRankings(players, position) {
+            const container = document.getElementById('rankings-container');
+            
+            const positionLabels = {
+                'qb': 'Quarterback',
+                'rb': 'Running Back', 
+                'wr': 'Wide Receiver',
+                'te': 'Tight End'
+            };
+            
+            let tableHTML = `
+                <h2>${positionLabels[position]} Rankings</h2>
+                <table class="rankings-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Player</th>
+                            <th>Team</th>
+                            <th>Composite Score</th>
+            `;
+            
+            // Add position-specific columns
+            const metrics = getPositionMetrics(position);
+            metrics.forEach(metric => {
+                tableHTML += `<th>${metric.label}</th>`;
+            });
+            
+            tableHTML += '</tr></thead><tbody>';
+            
+            players.forEach(player => {
+                const rankClass = player.rank <= 3 ? 'top' : player.rank <= 10 ? 'high' : 'normal';
+                
+                tableHTML += `
+                    <tr>
+                        <td><span class="rank rank-${rankClass}">${player.rank}</span></td>
+                        <td><strong>${player.name}</strong></td>
+                        <td>${player.team}</td>
+                        <td><strong>${player.compositeScore.toFixed(2)}</strong></td>
+                `;
+                
+                metrics.forEach(metric => {
+                    const value = player[metric.key];
+                    const displayValue = typeof value === 'number' ? value.toFixed(metric.decimals || 1) : value;
+                    tableHTML += `<td>${displayValue}</td>`;
+                });
+                
+                tableHTML += '</tr>';
+            });
+            
+            tableHTML += '</tbody></table>';
+            container.innerHTML = tableHTML;
+        }
+        
+        function getPositionMetrics(position) {
+            const metrics = {
+                qb: [
+                    { key: 'passAttempts', label: 'Pass Attempts', decimals: 0 },
+                    { key: 'rushingYards', label: 'Rush Yards', decimals: 0 },
+                    { key: 'fantasyPPG', label: 'Fantasy PPG', decimals: 1 },
+                    { key: 'completionPercentage', label: 'Comp %', decimals: 1 },
+                    { key: 'epaPerPlay', label: 'EPA/Play', decimals: 2 }
+                ],
+                rb: [
+                    { key: 'totalOpportunities', label: 'Opportunities', decimals: 0 },
+                    { key: 'redZoneTouches', label: 'Red Zone', decimals: 0 },
+                    { key: 'snapShare', label: 'Snap Share %', decimals: 1 },
+                    { key: 'yardsAfterContact', label: 'YAC/Att', decimals: 1 },
+                    { key: 'breakawayRunRate', label: 'Breakaway %', decimals: 1 }
+                ],
+                wr: [
+                    { key: 'targets', label: 'Targets', decimals: 0 },
+                    { key: 'targetsPerRouteRun', label: 'TPRR', decimals: 3 },
+                    { key: 'airYards', label: 'Air Yards', decimals: 0 },
+                    { key: 'yardsPerRouteRun', label: 'YPRR', decimals: 1 },
+                    { key: 'redZoneTargets', label: 'Red Zone', decimals: 0 }
+                ],
+                te: [
+                    { key: 'routeParticipation', label: 'Route %', decimals: 1 },
+                    { key: 'targetsPerRouteRun', label: 'TPRR', decimals: 3 },
+                    { key: 'yardsPerRouteRun', label: 'YPRR', decimals: 1 },
+                    { key: 'targetShare', label: 'Target Share', decimals: 3 },
+                    { key: 'redZoneTargets', label: 'Red Zone', decimals: 0 }
+                ]
+            };
+            
+            return metrics[position] || [];
+        }
+        
+        // Load initial rankings
+        loadRankings('qb');
+    </script>
+</body>
+</html> 
