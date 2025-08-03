@@ -1,4 +1,4 @@
-const adpRoutes = require('../../backend/routes/adp');
+const { scrapeADP } = require('../../../backend/services/dataFetcher');
 
 module.exports = async (req, res) => {
     // Set CORS headers for Vercel
@@ -11,6 +11,18 @@ module.exports = async (req, res) => {
         return;
     }
 
-    // Handle the request using the existing route
-    return adpRoutes(req, res);
+    try {
+        const adpData = await scrapeADP('wr');
+        res.json({
+            success: true,
+            data: adpData
+        });
+    } catch (error) {
+        console.error('Error fetching WR ADP:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to fetch WR ADP',
+            message: error.message
+        });
+    }
 }; 

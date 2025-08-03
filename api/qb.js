@@ -1,4 +1,6 @@
-const qbRoutes = require('../backend/routes/qb');
+const RankingEngine = require('../../backend/utils/rankingEngine');
+
+const rankingEngine = new RankingEngine();
 
 module.exports = async (req, res) => {
   // Set CORS headers for Vercel
@@ -11,6 +13,19 @@ module.exports = async (req, res) => {
     return;
   }
 
-  // Handle the request using the existing route
-  return qbRoutes(req, res);
+  try {
+    const qbs = await rankingEngine.rankQBs();
+    res.json({
+      success: true,
+      data: qbs,
+      message: 'QB rankings retrieved successfully'
+    });
+  } catch (error) {
+    console.error('Error fetching QB rankings:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Failed to fetch QB rankings',
+      message: error.message
+    });
+  }
 }; 
