@@ -1,4 +1,4 @@
-const { scrapeADP } = require('../../../backend/services/dataFetcher');
+const { scrapeADP } = require('../services/dataFetcher');
 
 module.exports = async (req, res) => {
     // Set CORS headers for Vercel
@@ -12,37 +12,16 @@ module.exports = async (req, res) => {
     }
 
     try {
-        // Simple test response to check if ADP API routing works
+        const adpData = await scrapeADP('qb');
         res.json({
             success: true,
-            data: [
-                {
-                    id: 'qb-1',
-                    rank: 1,
-                    name: 'Test QB 1',
-                    team: 'TEST',
-                    position: 'QB',
-                    adp: 1,
-                    byeWeek: 1,
-                    notes: ''
-                },
-                {
-                    id: 'qb-2',
-                    rank: 2,
-                    name: 'Test QB 2',
-                    team: 'TEST',
-                    position: 'QB',
-                    adp: 2,
-                    byeWeek: 2,
-                    notes: ''
-                }
-            ]
+            data: adpData
         });
     } catch (error) {
-        console.error('Error in QB ADP API:', error);
+        console.error('API Error:', error);
         res.status(500).json({
             success: false,
-            error: 'Failed to fetch QB ADP',
+            error: 'Internal server error',
             message: error.message
         });
     }

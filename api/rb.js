@@ -1,4 +1,4 @@
-const RankingEngine = require('../../backend/utils/rankingEngine');
+const RankingEngine = require('./utils/rankingEngine');
 
 const rankingEngine = new RankingEngine();
 
@@ -21,10 +21,10 @@ module.exports = async (req, res) => {
       message: 'RB rankings retrieved successfully'
     });
   } catch (error) {
-    console.error('Error fetching RB rankings:', error);
+    console.error('API Error:', error);
     res.status(500).json({
       success: false,
-      error: 'Failed to fetch RB rankings',
+      error: 'Internal server error',
       message: error.message
     });
   }

@@ -1,4 +1,4 @@
-const { scrapeADP } = require('../../../backend/services/dataFetcher');
+const { scrapeADP } = require('../services/dataFetcher');
 
 module.exports = async (req, res) => {
     // Set CORS headers for Vercel
@@ -18,10 +18,10 @@ module.exports = async (req, res) => {
             data: adpData
         });
     } catch (error) {
-        console.error('Error fetching WR ADP:', error);
+        console.error('API Error:', error);
         res.status(500).json({
             success: false,
-            error: 'Failed to fetch WR ADP',
+            error: 'Internal server error',
             message: error.message
         });
     }
