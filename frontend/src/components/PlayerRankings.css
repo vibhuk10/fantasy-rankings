@@ -1,0 +1,23 @@
+.player-rankings {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.rankings-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.rankings-header h2 {
+  color: #333;
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+}
+
+.rankings-subtitle {
+  color: #666;
+  margin: 0;
+  font-size: 1rem;
+} 
