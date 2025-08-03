@@ -12,13 +12,34 @@ module.exports = async (req, res) => {
     }
 
     try {
-        const adpData = await scrapeADP('qb');
+        // Simple test response to check if ADP API routing works
         res.json({
             success: true,
-            data: adpData
+            data: [
+                {
+                    id: 'qb-1',
+                    rank: 1,
+                    name: 'Test QB 1',
+                    team: 'TEST',
+                    position: 'QB',
+                    adp: 1,
+                    byeWeek: 1,
+                    notes: ''
+                },
+                {
+                    id: 'qb-2',
+                    rank: 2,
+                    name: 'Test QB 2',
+                    team: 'TEST',
+                    position: 'QB',
+                    adp: 2,
+                    byeWeek: 2,
+                    notes: ''
+                }
+            ]
         });
     } catch (error) {
-        console.error('Error fetching QB ADP:', error);
+        console.error('Error in QB ADP API:', error);
         res.status(500).json({
             success: false,
             error: 'Failed to fetch QB ADP',
