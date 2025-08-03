@@ -6,6 +6,10 @@
             "use": "@vercel/static-build",
             "config": {
                 "distDir": "build"
+            },
+            "env": {
+                "NODE_OPTIONS": "--openssl-legacy-provider",
+                "CI": "false"
             }
         }
     ],
@@ -32,7 +36,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/frontend/$1"
+            "dest": "/index.html"
         }
     ]
 }

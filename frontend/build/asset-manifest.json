@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/fantasy-rankings/static/css/main.0e6dea33.chunk.css",
-    "main.js": "/fantasy-rankings/static/js/main.90add9f3.chunk.js",
-    "main.js.map": "/fantasy-rankings/static/js/main.90add9f3.chunk.js.map",
-    "runtime-main.js": "/fantasy-rankings/static/js/runtime-main.edab0a77.js",
-    "runtime-main.js.map": "/fantasy-rankings/static/js/runtime-main.edab0a77.js.map",
-    "static/js/2.d5a6f219.chunk.js": "/fantasy-rankings/static/js/2.d5a6f219.chunk.js",
-    "static/js/2.d5a6f219.chunk.js.map": "/fantasy-rankings/static/js/2.d5a6f219.chunk.js.map",
-    "static/js/3.5c02bbdd.chunk.js": "/fantasy-rankings/static/js/3.5c02bbdd.chunk.js",
-    "static/js/3.5c02bbdd.chunk.js.map": "/fantasy-rankings/static/js/3.5c02bbdd.chunk.js.map",
-    "static/js/4.1395beb9.chunk.js": "/fantasy-rankings/static/js/4.1395beb9.chunk.js",
-    "static/js/4.1395beb9.chunk.js.map": "/fantasy-rankings/static/js/4.1395beb9.chunk.js.map",
-    "index.html": "/fantasy-rankings/index.html",
-    "precache-manifest.fabe639a88330606810dbf19d725f16a.js": "/fantasy-rankings/precache-manifest.fabe639a88330606810dbf19d725f16a.js",
-    "service-worker.js": "/fantasy-rankings/service-worker.js",
-    "static/css/main.0e6dea33.chunk.css.map": "/fantasy-rankings/static/css/main.0e6dea33.chunk.css.map",
-    "static/js/2.d5a6f219.chunk.js.LICENSE.txt": "/fantasy-rankings/static/js/2.d5a6f219.chunk.js.LICENSE.txt",
-    "static/js/3.5c02bbdd.chunk.js.LICENSE.txt": "/fantasy-rankings/static/js/3.5c02bbdd.chunk.js.LICENSE.txt",
-    "static/js/4.1395beb9.chunk.js.LICENSE.txt": "/fantasy-rankings/static/js/4.1395beb9.chunk.js.LICENSE.txt"
+    "main.css": "/static/css/main.0e6dea33.chunk.css",
+    "main.js": "/static/js/main.fed0bb47.chunk.js",
+    "main.js.map": "/static/js/main.fed0bb47.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4b6f4368.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4b6f4368.js.map",
+    "static/js/2.d5a6f219.chunk.js": "/static/js/2.d5a6f219.chunk.js",
+    "static/js/2.d5a6f219.chunk.js.map": "/static/js/2.d5a6f219.chunk.js.map",
+    "static/js/3.5c02bbdd.chunk.js": "/static/js/3.5c02bbdd.chunk.js",
+    "static/js/3.5c02bbdd.chunk.js.map": "/static/js/3.5c02bbdd.chunk.js.map",
+    "static/js/4.1395beb9.chunk.js": "/static/js/4.1395beb9.chunk.js",
+    "static/js/4.1395beb9.chunk.js.map": "/static/js/4.1395beb9.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.460c0dad0d8e056e8635872602c6cb42.js": "/precache-manifest.460c0dad0d8e056e8635872602c6cb42.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.0e6dea33.chunk.css.map": "/static/css/main.0e6dea33.chunk.css.map",
+    "static/js/2.d5a6f219.chunk.js.LICENSE.txt": "/static/js/2.d5a6f219.chunk.js.LICENSE.txt",
+    "static/js/3.5c02bbdd.chunk.js.LICENSE.txt": "/static/js/3.5c02bbdd.chunk.js.LICENSE.txt",
+    "static/js/4.1395beb9.chunk.js.LICENSE.txt": "/static/js/4.1395beb9.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.edab0a77.js",
+    "static/js/runtime-main.4b6f4368.js",
     "static/js/2.d5a6f219.chunk.js",
     "static/css/main.0e6dea33.chunk.css",
-    "static/js/main.90add9f3.chunk.js"
+    "static/js/main.fed0bb47.chunk.js"
   ]
 }

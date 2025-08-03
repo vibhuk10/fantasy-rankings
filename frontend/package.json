@@ -1,7 +1,6 @@
 {
   "name": "fantasy-football-rankings",
   "version": "0.1.0",
-  "homepage": "https://vibhuk10.github.io/fantasy-rankings",
   "private": true,
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
@@ -24,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "NODE_OPTIONS=--openssl-legacy-provider CI=false react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
