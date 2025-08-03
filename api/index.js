@@ -1,5 +1,5 @@
-const RankingEngine = require('../../backend/utils/rankingEngine');
-const { scrapeADP } = require('../../backend/services/dataFetcher');
+const RankingEngine = require('./utils/rankingEngine');
+const { scrapeADP } = require('./services/dataFetcher');
 
 const rankingEngine = new RankingEngine();
 
