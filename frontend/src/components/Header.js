@@ -6,7 +6,7 @@ const Header = () => {
     <header className="header">
       <div className="header-content">
         <h1 className="header-title">
-          🏈 Fantasy Football Rankings
+          <span role="img" aria-label="football">🏈</span> Fantasy Football Rankings
         </h1>
         <p className="header-subtitle">
           Advanced Analytics & Player Rankings for the 2024 Season

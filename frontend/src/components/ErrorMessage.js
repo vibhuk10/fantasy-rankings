@@ -5,7 +5,9 @@ const ErrorMessage = ({ message }) => {
     return (
         <div className="error-container">
             <div className="error-message">
-                <div className="error-icon">⚠️</div>
+                <div className="error-icon">
+                    <span role="img" aria-label="warning">⚠️</span>
+                </div>
                 <h3>Error</h3>
                 <p>{message}</p>
                 <button

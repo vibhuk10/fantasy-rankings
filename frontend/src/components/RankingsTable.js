@@ -5,33 +5,7 @@ import './RankingsTable.css';
 const RankingsTable = ({ players, position }) => {
   const [filterInput, setFilterInput] = useState('');
 
-  // Format column headers
-  const formatColumnHeader = (header) => {
-    const headerMap = {
-      rank: 'Rank',
-      name: 'Name',
-      team: 'Team',
-      passAttempts: 'Pass Att',
-      passYards: 'Pass Yds',
-      passTds: 'Pass TDs',
-      passInts: 'INTs',
-      completionPercentage: 'Comp %',
-      yardsPerAttempt: 'Yds/Att',
-      rushYards: 'Rush Yds',
-      rushTds: 'Rush TDs',
-      rushAttempts: 'Rush Att',
-      yardsPerRush: 'Yds/Rush',
-      targets: 'Targets',
-      receptions: 'Rec',
-      recYards: 'Rec Yds',
-      recTds: 'Rec TDs',
-      yardsPerReception: 'Yds/Rec',
-      catchRate: 'Catch %',
-      fantasyPPG: 'Fantasy PPG',
-      compositeScore: 'Composite Score'
-    };
-    return headerMap[header] || header;
-  };
+
 
   // Format cell values
   const formatCellValue = (value, columnId) => {
@@ -149,7 +123,7 @@ const RankingsTable = ({ players, position }) => {
     canNextPage,
     canPreviousPage,
     pageOptions,
-    state: { pageIndex, pageSize }
+    state: { pageIndex }
   } = useTable(
     {
       columns,
