@@ -12,7 +12,7 @@
     "env": {
         "NODE_OPTIONS": "--openssl-legacy-provider",
         "CI": "false"
-    }
+    },
     "routes": [
         {
             "src": "/api/qb",
