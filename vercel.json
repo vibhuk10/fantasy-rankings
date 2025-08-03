@@ -15,6 +15,10 @@
             "dest": "/api/hello.js"
         },
         {
+            "src": "/api/qb-simple",
+            "dest": "/api/qb-simple.js"
+        },
+        {
             "src": "/api/qb",
             "dest": "/api/qb.js"
         },
