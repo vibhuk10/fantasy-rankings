@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import './PlayerRankings.css';
 import RankingsTable from './RankingsTable';
 import LoadingSpinner from './LoadingSpinner';
 import ErrorMessage from './ErrorMessage';
+import { loadPositionData } from '../utils/csvLoader';
 
 const PlayerRankings = ({ position }) => {
   const [players, setPlayers] = useState([]);
@@ -16,11 +16,11 @@ const PlayerRankings = ({ position }) => {
       setError(null);
 
       try {
-        const response = await axios.get(`/api/${position}`);
-        setPlayers(response.data.data);
+        const data = await loadPositionData(position);
+        setPlayers(data);
       } catch (err) {
-        setError('Failed to fetch player rankings. Please try again.');
-        console.error('Error fetching players:', err);
+        setError('Failed to load player rankings. Please try again.');
+        console.error('Error loading players:', err);
       } finally {
         setLoading(false);
       }

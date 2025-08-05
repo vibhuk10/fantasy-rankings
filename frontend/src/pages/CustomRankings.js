@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import PlayerListDnD from '../components/PlayerListDnD';
 import { exportToPDF } from '../utils/exportPDF';
+import { loadPositionADPData } from '../utils/csvLoader';
 import './CustomRankings.css';
 
 const CustomRankings = () => {
@@ -43,14 +43,14 @@ const CustomRankings = () => {
         }
     }, []);
 
-    // Fetch ADP data for each position
+    // Load ADP data for each position from CSV
     useEffect(() => {
-        const fetchADPData = async (position) => {
+        const loadADPData = async (position) => {
             try {
                 setLoading(prev => ({ ...prev, [position]: true }));
-                const response = await axios.get(`/api/adp/${position}`);
+                const adpData = await loadPositionADPData(position);
 
-                if (response.data.success) {
+                if (adpData.length > 0) {
                     // Check if we have saved rankings for this position
                     const savedRankings = localStorage.getItem('customRankings');
                     let savedPlayers = [];
@@ -65,7 +65,7 @@ const CustomRankings = () => {
                     }
 
                     // Use saved rankings if available, otherwise use ADP data
-                    const playersToUse = savedPlayers.length > 0 ? savedPlayers : response.data.data;
+                    const playersToUse = savedPlayers.length > 0 ? savedPlayers : adpData;
 
                     setPlayers(prev => ({
                         ...prev,
@@ -73,17 +73,17 @@ const CustomRankings = () => {
                     }));
                 }
             } catch (error) {
-                console.error(`Error fetching ${position} ADP:`, error);
-                setError(`Failed to fetch ${position.toUpperCase()} rankings`);
+                console.error(`Error loading ${position} ADP:`, error);
+                setError(`Failed to load ${position.toUpperCase()} rankings`);
             } finally {
                 setLoading(prev => ({ ...prev, [position]: false }));
             }
         };
 
-        fetchADPData('qb');
-        fetchADPData('rb');
-        fetchADPData('wr');
-        fetchADPData('te');
+        loadADPData('qb');
+        loadADPData('rb');
+        loadADPData('wr');
+        loadADPData('te');
     }, []);
 
     // Save rankings to localStorage whenever they change
@@ -108,103 +108,87 @@ const CustomRankings = () => {
 
     const resetToADP = async (position) => {
         try {
-            setLoading(prev => ({ ...prev, [position]: true }));
-            const response = await axios.get(`/api/adp/${position}`);
-
-            if (response.data.success) {
+            const adpData = await loadPositionADPData(position);
+            if (adpData.length > 0) {
                 setPlayers(prev => ({
                     ...prev,
-                    [position]: response.data.data
+                    [position]: adpData
                 }));
             }
         } catch (error) {
             console.error(`Error resetting ${position} to ADP:`, error);
-            setError(`Failed to reset ${position.toUpperCase()} to ADP`);
-        } finally {
-            setLoading(prev => ({ ...prev, [position]: false }));
         }
     };
 
     const handleExportPDF = () => {
-        console.log('Exporting PDF with players data:', players);
         exportToPDF(players);
     };
 
-
-
     const positions = [
-        { key: 'qb', label: 'Quarterbacks (QB)' },
-        { key: 'rb', label: 'Running Backs (RB)' },
-        { key: 'wr', label: 'Wide Receivers (WR)' },
-        { key: 'te', label: 'Tight Ends (TE)' }
+        { value: 'qb', label: 'Quarterbacks' },
+        { value: 'rb', label: 'Running Backs' },
+        { value: 'wr', label: 'Wide Receivers' },
+        { value: 'te', label: 'Tight Ends' }
     ];
 
     return (
         <div className="custom-rankings">
             <div className="custom-rankings-header">
-                <h1>Custom Player Rankings</h1>
-                <p>Drag and drop players to reorder your rankings. Click "Export to PDF" to save your custom rankings.</p>
-                <button
-                    className="export-button"
-                    onClick={handleExportPDF}
-                    disabled={Object.values(loading).some(Boolean)}
-                >
-                    Export to PDF
-                </button>
+                <h1>Custom Rankings</h1>
+                <p>Drag and drop players to reorder your rankings</p>
+                <div className="export-buttons">
+                    <button onClick={handleExportPDF} className="export-btn">
+                        Export to PDF
+                    </button>
+                </div>
             </div>
 
-            {error && (
-                <div className="error-message">
-                    {error}
-                    <button onClick={() => setError(null)}>×</button>
-                </div>
-            )}
-
             <div className="tabs">
-                {positions.map(({ key, label }) => (
+                {positions.map(pos => (
                     <button
-                        key={key}
-                        className={`tab ${activeTab === key ? 'active' : ''}`}
-                        onClick={() => setActiveTab(key)}
+                        key={pos.value}
+                        className={`tab ${activeTab === pos.value ? 'active' : ''}`}
+                        onClick={() => setActiveTab(pos.value)}
                     >
-                        {label}
+                        {pos.label}
                     </button>
                 ))}
             </div>
 
             <div className="tab-content">
-                {positions.map(({ key, label }) => (
+                {positions.map(pos => (
                     <div
-                        key={key}
-                        className={`tab-panel ${activeTab === key ? 'active' : ''}`}
+                        key={pos.value}
+                        className={`tab-panel ${activeTab === pos.value ? 'active' : ''}`}
                     >
-                        <div className="tab-header">
-                            <h2>{label}</h2>
+                        <div className="panel-header">
+                            <h2>{pos.label}</h2>
                             <button
-                                className="reset-button"
-                                onClick={() => resetToADP(key)}
-                                disabled={loading[key]}
+                                onClick={() => resetToADP(pos.value)}
+                                className="reset-btn"
                             >
                                 Reset to ADP
                             </button>
                         </div>
 
-                        {loading[key] ? (
-                            <div className="loading">Loading {label}...</div>
+                        {loading[pos.value] ? (
+                            <div className="loading">Loading {pos.label}...</div>
+                        ) : error ? (
+                            <div className="error">{error}</div>
                         ) : (
                             <DndContext
                                 sensors={sensors}
                                 collisionDetection={closestCenter}
-                                onDragEnd={(event) => handleDragEnd(event, key)}
+                                onDragEnd={(event) => handleDragEnd(event, pos.value)}
                                 modifiers={[restrictToVerticalAxis]}
                             >
                                 <SortableContext
-                                    items={players[key].map(player => player.id)}
+                                    items={players[pos.value].map(player => player.id)}
                                     strategy={verticalListSortingStrategy}
                                 >
                                     <PlayerListDnD
-                                        players={players[key]}
-                                        position={key}
+                                        players={players[pos.value]}
+                                        position={pos.value}
                                     />
                                 </SortableContext>
                             </DndContext>
