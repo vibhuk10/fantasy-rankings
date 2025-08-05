@@ -176,7 +176,9 @@ const CustomRankings = () => {
     };
 
     const triggerFileUpload = () => {
-        fileInputRef.current?.click();
+        if (fileInputRef.current) {
+            fileInputRef.current.click();
+        }
     };
 
     const positions = [
