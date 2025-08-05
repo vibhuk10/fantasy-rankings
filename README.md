@@ -1,244 +1,253 @@
-# Fantasy Football Player Rankings
+# 🏈 Fantasy Football Rankings
 
-A full-stack fantasy football player ranking application that uses real 2024 NFL season data to generate predictive rankings for QBs, RBs, WRs, and TEs.
+A comprehensive fantasy football application featuring advanced analytics, player rankings, and interactive custom rankings with drag-and-drop functionality.
 
-## 🏈 Features
+## ✨ Features
 
-- **Real 2024 Season Data**: Scrapes and processes actual 2024 NFL season statistics from Pro Football Reference and FantasyPros
-- **Predictive Rankings**: Uses composite scoring algorithms to rank players based on multiple metrics
-- **Interactive Tables**: Sortable, searchable, and paginated player rankings by position
-- **Comprehensive Metrics**: Position-specific statistics including volume, efficiency, and scoring metrics
-- **Caching System**: Caches scraped data to avoid repeated API calls during development
+### 🎯 **Core Features**
+- **Player Rankings**: Comprehensive rankings for QB, RB, WR, and TE positions
+- **Custom Rankings**: Interactive drag-and-drop interface for personalized rankings
+- **PDF Export**: Export your custom rankings to PDF
+- **Real Data**: Based on 2024 NFL season statistics from Pro Football Reference and FantasyPros
+- **ADP Integration**: Average Draft Position data from FantasyPros
+- **Responsive Design**: Works on desktop and mobile devices
 
-## 📊 Data Sources
+### 📊 **Data Sources**
+- **Pro Football Reference**: 2024 season passing, rushing, and receiving statistics
+- **FantasyPros**: Current ADP (Average Draft Position) data
+- **Composite Scoring**: Advanced algorithms combining multiple metrics
 
-### 2024 Season Statistics
-- **Pro Football Reference**: Passing, rushing, and receiving statistics
-- **FantasyPros**: Fantasy points and PPG data
-- **NFLfastR**: Advanced metrics (EPA, air yards, route participation)
-
-### Metrics by Position
-
-#### Quarterbacks (QB)
-- Pass Attempts, Yards, TDs, INTs
-- Completion Percentage, Yards per Attempt
-- Rushing Yards and TDs
-- Fantasy Points Per Game
-- Composite Score
-
-#### Running Backs (RB)
-- Rush Attempts, Yards, TDs
-- Yards per Rush
-- Targets, Receptions, Receiving Yards/TDs
-- Catch Rate
-- Fantasy Points Per Game
-- Composite Score
-
-#### Wide Receivers (WR)
-- Targets, Receptions, Yards, TDs
-- Yards per Reception
-- Catch Rate
-- Fantasy Points Per Game
-- Composite Score
-
-#### Tight Ends (TE)
-- Targets, Receptions, Yards, TDs
-- Yards per Reception
-- Catch Rate
-- Fantasy Points Per Game
-- Composite Score
+### 🔧 **Technical Stack**
+- **Frontend**: React, React Router, @dnd-kit (drag-and-drop)
+- **Data**: CSV files for static hosting compatibility
+- **Deployment**: Vercel static hosting
+- **PDF Generation**: jsPDF and html2canvas
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (version 12 or higher)
-- npm
+- Node.js 12+ 
+- npm or yarn
 
 ### Installation
+```bash
+# Clone the repository
+git clone https://github.com/vibhuk10/fantasy-rankings.git
+cd fantasy-football-rankings
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd fantasy-football-rankings
-   ```
+# Install dependencies
+cd frontend
+npm install
 
-2. **Install backend dependencies**
-   ```bash
-   cd backend
-   npm install
-   ```
+# Start the development server
+npm start
+```
 
-3. **Install frontend dependencies**
-   ```bash
-   cd ../frontend
-   npm install
-   ```
+### Data Generation
+```bash
+# Generate ranking data from backend sources
+node scripts/generate-csv-data.js
 
-### Running the Application
+# Generate ADP data from FantasyPros
+node scripts/generate-adp-data.js
+```
 
-1. **Start the backend server**
-   ```bash
-   cd backend
-   npm start
-   ```
-   The backend will run on `http://localhost:5000`
+## 📁 Project Structure
 
-2. **Start the frontend application**
-   ```bash
-   cd frontend
-   npm start
-   ```
-   The frontend will run on `http://localhost:3000`
+```
+fantasy-football-rankings/
+├── frontend/                 # React application
+│   ├── public/
+│   │   └── data/            # CSV data files
+│   │       ├── qb-rankings.csv
+│   │       ├── rb-rankings.csv
+│   │       ├── wr-rankings.csv
+│   │       ├── te-rankings.csv
+│   │       └── adp-data.csv
+│   ├── src/
+│   │   ├── components/      # React components
+│   │   ├── pages/          # Page components
+│   │   ├── utils/          # Utilities (CSV loader, PDF export)
+│   │   └── data/           # Position configurations
+├── scripts/                 # Data generation scripts
+│   ├── generate-csv-data.js
+│   ├── generate-adp-data.js
+│   └── deploy-to-vercel.js
+├── backend/                 # Backend data processing (for CSV generation)
+└── vercel.json             # Vercel deployment configuration
+```
 
-3. **Access the application**
-   Open your browser and navigate to `http://localhost:3000`
+## 🎮 Usage
 
-## 🏗️ Architecture
+### **Custom Rankings (Default Page)**
+- **URL**: `/` (home page)
+- **Features**: 
+  - Drag-and-drop player reordering
+  - Position-specific tabs (QB, RB, WR, TE)
+  - Reset to ADP functionality
+  - PDF export capability
+  - Local storage persistence
 
-### Backend (Node.js + Express)
+### **Player Rankings**
+- **URL**: `/rankings`
+- **Features**:
+  - Sortable data tables
+  - Position filtering
+  - Comprehensive player statistics
+  - Search and filter functionality
 
-#### Core Components
-- **DataFetcher**: Scrapes and processes 2024 season data from multiple sources
-- **RankingEngine**: Implements position-specific ranking algorithms
-- **API Routes**: RESTful endpoints for each position
+## 📊 Data Metrics
 
-#### Key Files
-- `server.js`: Main Express server setup
-- `services/dataFetcher.js`: Web scraping and data processing
-- `utils/rankingEngine.js`: Ranking algorithms and composite scoring
-- `routes/`: Position-specific API endpoints
+### **QB Metrics**
+- Pass Attempts, Yards, TDs
+- Completion Percentage
+- Yards per Attempt
+- Rushing Yards and TDs
+- Fantasy Points Per Game
+- Composite Score
 
-#### API Endpoints
-- `GET /api/health`: Health check
-- `GET /api/qb`: QB rankings
-- `GET /api/rb`: RB rankings
-- `GET /api/wr`: WR rankings
-- `GET /api/te`: TE rankings
-- `GET /api/{position}/:id`: Specific player by ID
-- `GET /api/{position}/team/:team`: Players by team
+### **RB Metrics**
+- Rush Attempts, Yards, TDs
+- Yards per Rush
+- Targets and Receptions
+- Receiving Yards and TDs
+- Catch Rate
+- Fantasy Points Per Game
 
-### Frontend (React)
+### **WR Metrics**
+- Targets and Receptions
+- Receiving Yards and TDs
+- Yards per Reception
+- Catch Rate
+- Fantasy Points Per Game
 
-#### Core Components
-- **App**: Main application component with position selection
-- **PlayerRankings**: Fetches and displays player data
-- **RankingsTable**: Interactive table with sorting and filtering
-- **Header**: Application header
-- **LoadingSpinner**: Loading state indicator
-- **ErrorMessage**: Error handling component
+### **TE Metrics**
+- Targets and Receptions
+- Receiving Yards and TDs
+- Yards per Reception
+- Catch Rate
+- Fantasy Points Per Game
 
-#### Key Features
-- Position-based navigation
-- Sortable columns
-- Search functionality
-- Pagination
-- Responsive design
+## 🚀 Deployment
 
-## 📈 Ranking Algorithm
+### **Vercel Deployment**
+This application is optimized for Vercel static hosting:
 
-### Composite Scoring System
+1. **Connect Repository**: Link your GitHub repo to Vercel
+2. **Build Settings**: 
+   - Build Command: `cd frontend && npm install && npm run build`
+   - Output Directory: `frontend/build`
+3. **Environment Variables**: None required (static files)
 
-The application uses weighted composite scoring based on position-specific metrics:
+### **Deployment Benefits**
+- ✅ **No Backend Complexity**: Uses static CSV files
+- ✅ **Fast Loading**: Static file serving
+- ✅ **Reliable**: No serverless function issues
+- ✅ **Easy Updates**: Regenerate CSV files for fresh data
 
-#### QB Scoring Weights
-- Pass Attempts: 15% (Volume)
-- Completion Percentage: 10% (Efficiency)
-- Yards per Attempt: 15% (Efficiency)
-- Pass TDs: 20% (Scoring)
-- Rushing Yards: 15% (Rushing upside)
-- Rushing TDs: 10% (Rushing scoring)
-- Fantasy PPG: 15% (Overall production)
+### **Manual Deployment**
+```bash
+# Generate fresh data
+node scripts/generate-csv-data.js
+node scripts/generate-adp-data.js
 
-#### RB Scoring Weights
-- Rush Attempts: 20% (Volume)
-- Yards per Rush: 15% (Efficiency)
-- Rush TDs: 20% (Scoring)
-- Targets: 15% (Receiving volume)
-- Catch Rate: 10% (Receiving efficiency)
-- Fantasy PPG: 20% (Overall production)
+# Build for production
+cd frontend
+npm run build
 
-#### WR Scoring Weights
-- Targets: 20% (Volume)
-- Receptions: 15% (Volume)
-- Yards per Reception: 15% (Efficiency)
-- Receiving TDs: 20% (Scoring)
-- Catch Rate: 10% (Efficiency)
-- Fantasy PPG: 20% (Overall production)
+# Deploy to Vercel
+vercel --prod
+```
 
-#### TE Scoring Weights
-- Targets: 20% (Volume)
-- Receptions: 15% (Volume)
-- Yards per Reception: 15% (Efficiency)
-- Receiving TDs: 20% (Scoring)
-- Catch Rate: 10% (Efficiency)
-- Fantasy PPG: 20% (Overall production)
+## 🔄 Data Updates
 
-## 🔧 Development
+### **Updating Player Rankings**
+```bash
+# Run the ranking data generation script
+node scripts/generate-csv-data.js
+```
 
-### Data Fetching
-The application automatically fetches real 2024 season data on first run and caches it locally. To refresh the data:
+### **Updating ADP Data**
+```bash
+# Run the ADP data generation script
+node scripts/generate-adp-data.js
+```
 
-1. Delete the cache file: `backend/data/cache/2024_season_data.json`
-2. Restart the backend server
+### **Verifying Data**
+```bash
+# Check deployment readiness
+node scripts/deploy-to-vercel.js
+```
 
-### Adding New Metrics
-1. Update the data fetcher in `backend/services/dataFetcher.js`
-2. Add the metric to the ranking algorithm in `backend/utils/rankingEngine.js`
-3. Update the frontend table configuration in `frontend/src/components/RankingsTable.js`
+## 🛠 Development
 
-### Customizing Rankings
-Modify the scoring weights in `backend/utils/rankingEngine.js` to adjust the importance of different metrics.
+### **Local Development**
+```bash
+# Start frontend development server
+cd frontend
+npm start
+
+# The app will be available at http://localhost:3000
+```
+
+### **Data Generation**
+```bash
+# Generate all CSV data
+node scripts/generate-csv-data.js
+node scripts/generate-adp-data.js
+```
+
+### **Testing**
+- Test drag-and-drop functionality
+- Verify PDF export
+- Check localStorage persistence
+- Test responsive design
+
+## 📈 Performance
+
+### **Optimizations**
+- **Static Data**: CSV files load faster than API calls
+- **Lazy Loading**: Components load on demand
+- **Caching**: Browser caching for static assets
+- **Compression**: Vercel automatically compresses static files
+
+### **Data Size**
+- **QB Rankings**: ~50 players, 3.5KB
+- **RB Rankings**: ~50 players, 3.4KB
+- **WR Rankings**: ~50 players, 3.4KB
+- **TE Rankings**: ~50 players, 3.4KB
+- **ADP Data**: ~216 players, 7.7KB
 
 ## 🐛 Troubleshooting
 
-### Common Issues
+### **Common Issues**
 
-1. **Backend won't start**
-   - Check Node.js version (requires 12+)
-   - Ensure all dependencies are installed: `npm install`
-   - Check port 5000 is available
-
-2. **Frontend won't start**
-   - Check Node.js version (requires 12+)
-   - Ensure all dependencies are installed: `npm install`
-   - Check port 3000 is available
-
-3. **No data displayed**
-   - Check backend is running on port 5000
-   - Check browser console for CORS errors
-   - Verify API endpoints are responding
-
-4. **Data fetching errors**
-   - Check internet connection
-   - Verify data source websites are accessible
-   - Check for rate limiting from data sources
-
-### Debug Mode
-Enable detailed logging by setting environment variables:
+**CSV Files Not Loading**
 ```bash
-DEBUG=true npm start
+# Regenerate CSV files
+node scripts/generate-csv-data.js
+node scripts/generate-adp-data.js
 ```
 
-## 📝 API Documentation
-
-### Response Format
-All API endpoints return JSON in the following format:
-```json
-{
-  "success": true,
-  "data": [...],
-  "message": "Description of response"
-}
+**Build Failures**
+```bash
+# Clear cache and reinstall
+cd frontend
+rm -rf node_modules package-lock.json
+npm install
+npm run build
 ```
 
-### Error Format
-```json
-{
-  "success": false,
-  "error": "Error description",
-  "message": "Detailed error message"
-}
+**Deployment Issues**
+```bash
+# Check deployment readiness
+node scripts/deploy-to-vercel.js
 ```
+
+### **Data Issues**
+- Ensure all CSV files exist in `frontend/public/data/`
+- Verify CSV format is correct
+- Check for missing dependencies
 
 ## 🤝 Contributing
 
@@ -250,15 +259,16 @@ All API endpoints return JSON in the following format:
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+This project is open source and available under the [MIT License](LICENSE).
 
 ## 🙏 Acknowledgments
 
 - **Pro Football Reference**: For comprehensive NFL statistics
-- **FantasyPros**: For fantasy football data
-- **NFLfastR**: For advanced analytics
-- **React Table**: For the interactive table component
+- **FantasyPros**: For ADP data
+- **React Community**: For excellent libraries and tools
+- **Vercel**: For seamless deployment platform
 
 ---
 
-**Note**: This application uses real 2024 NFL season data for ranking purposes. All statistics are from the 2024 regular season (Weeks 1-18) and are used to generate predictive rankings for the 2025 fantasy football season. 
+**🏈 Built for Fantasy Football Enthusiasts**  
+*Advanced analytics and rankings for the 2024 NFL season* 

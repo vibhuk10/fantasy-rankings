@@ -2,133 +2,123 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .custom-rankings-header {
     text-align: center;
     margin-bottom: 30px;
-    padding: 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
+    background: white;
     border-radius: 10px;
+    padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .custom-rankings-header h1 {
-    margin: 0 0 10px 0;
-    font-size: 2.5rem;
-    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    font-size: 2rem;
 }
 
 .custom-rankings-header p {
-    margin: 0 0 20px 0;
+    color: #666;
+    margin-bottom: 20px;
     font-size: 1.1rem;
-    opacity: 0.9;
 }
 
-.export-button {
-    background: #28a745;
-    color: white;
-    border: none;
+.export-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.export-btn,
+.import-btn,
+.template-btn {
     padding: 12px 24px;
-    font-size: 1rem;
-    font-weight: 600;
+    border: none;
     border-radius: 6px;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 1rem;
 }
 
-.export-button:hover {
+.export-btn {
+    background: #667eea;
+    color: white;
+}
+
+.export-btn:hover {
+    background: #5a6fd8;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.import-btn {
+    background: #28a745;
+    color: white;
+}
+
+.import-btn:hover {
     background: #218838;
     transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
 }
 
-.export-button:disabled {
-    background: #6c757d;
-    cursor: not-allowed;
-    transform: none;
-    box-shadow: none;
+.template-btn {
+    background: #ffc107;
+    color: #212529;
+}
+
+.template-btn:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 193, 7, 0.3);
+}
+
+.error-message,
+.success-message {
+    margin: 20px auto;
+    padding: 15px 20px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 600px;
+    animation: slideIn 0.3s ease;
 }
 
 .error-message {
     background: #f8d7da;
     color: #721c24;
-    padding: 12px 20px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     border: 1px solid #f5c6cb;
 }
 
-.error-message button {
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.close-btn {
     background: none;
     border: none;
-    color: #721c24;
     font-size: 1.2rem;
     cursor: pointer;
+    color: inherit;
     padding: 0;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-left: 10px;
 }
 
-.tabs {
-    display: flex;
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 4px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.close-btn:hover {
+    opacity: 0.7;
 }
 
-.tab {
-    flex: 1;
-    padding: 12px 20px;
-    background: none;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    color: #6c757d;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.tab:hover {
-    background: rgba(0, 123, 255, 0.1);
-    color: #007bff;
-}
-
-.tab.active {
-    background: #007bff;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
-}
-
-.tab-content {
-    position: relative;
-}
-
-.tab-panel {
-    display: none;
-    animation: fadeIn 0.3s ease-in-out;
-}
-
-.tab-panel.active {
-    display: block;
-}
-
-@keyframes fadeIn {
+@keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(10px);
+        transform: translateY(-10px);
     }
 
     to {
@@ -137,56 +127,97 @@
     }
 }
 
-.tab-header {
+.tabs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tab {
+    padding: 12px 24px;
+    border: 2px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+}
+
+.tab:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.tab.active {
+    background: #667eea;
+    color: white;
+    box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+}
+
+.tab-content {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.tab-panel {
+    display: none;
+}
+
+.tab-panel.active {
+    display: block;
+}
+
+.panel-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 15px 20px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
 }
 
-.tab-header h2 {
-    margin: 0;
+.panel-header h2 {
     color: #333;
+    margin: 0;
     font-size: 1.5rem;
-    font-weight: 600;
 }
 
-.reset-button {
-    background: #6c757d;
-    color: white;
-    border: none;
+.reset-btn {
     padding: 8px 16px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    border-radius: 4px;
+    border: 2px solid #dc3545;
+    background: white;
+    color: #dc3545;
+    border-radius: 20px;
     cursor: pointer;
+    font-weight: 600;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
 }
 
-.reset-button:hover {
-    background: #5a6268;
-}
-
-.reset-button:disabled {
-    background: #adb5bd;
-    cursor: not-allowed;
+.reset-btn:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-1px);
 }
 
 .loading {
     text-align: center;
     padding: 40px;
-    color: #6c757d;
+    color: #666;
     font-size: 1.1rem;
 }
 
-.no-players {
+.error {
     text-align: center;
     padding: 40px;
-    color: #6c757d;
+    color: #dc3545;
     font-size: 1.1rem;
 }
 
@@ -196,20 +227,40 @@
     }
 
     .custom-rankings-header h1 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .export-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .export-btn,
+    .import-btn,
+    .template-btn {
+        width: 100%;
+        max-width: 200px;
     }
 
     .tabs {
         flex-direction: column;
+        align-items: center;
     }
 
     .tab {
-        margin-bottom: 4px;
+        width: 100%;
+        max-width: 200px;
+        text-align: center;
     }
 
-    .tab-header {
+    .panel-header {
         flex-direction: column;
         gap: 10px;
         text-align: center;
+    }
+
+    .reset-btn {
+        width: 100%;
+        max-width: 150px;
     }
 }

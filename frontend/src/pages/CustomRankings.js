@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { restrictToVerticalAxis } from '@dnd-kit/modifiers';
 import PlayerListDnD from '../components/PlayerListDnD';
 import { exportToPDF } from '../utils/exportPDF';
+import { exportCustomRankings } from '../utils/csvExport';
+import { importCSVFile, validateCSVFile } from '../utils/csvImport';
+import { downloadTemplate } from '../utils/csvTemplate';
 import { loadPositionADPData } from '../utils/csvLoader';
 import './CustomRankings.css';
 
@@ -22,6 +25,8 @@ const CustomRankings = () => {
         te: true
     });
     const [error, setError] = useState(null);
+    const [message, setMessage] = useState(null);
+    const fileInputRef = useRef(null);
 
     const sensors = useSensors(
         useSensor(PointerSensor),
@@ -124,6 +129,56 @@ const CustomRankings = () => {
         exportToPDF(players);
     };
 
+    const handleExportCSV = () => {
+        const result = exportCustomRankings(players);
+        if (result.success) {
+            setMessage(result.message);
+            setTimeout(() => setMessage(null), 3000);
+        } else {
+            setError(result.message);
+        }
+    };
+
+    const handleImportCSV = (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        // Validate file
+        const validation = validateCSVFile(file);
+        if (!validation.valid) {
+            setError(validation.message);
+            return;
+        }
+
+        // Import CSV
+        importCSVFile(file)
+            .then(result => {
+                if (result.success) {
+                    setPlayers(result.rankings);
+                    setMessage('Rankings imported successfully!');
+                    setTimeout(() => setMessage(null), 3000);
+                } else {
+                    setError(result.message);
+                }
+            })
+            .catch(error => {
+                setError(error.message || 'Failed to import CSV file');
+            });
+
+        // Reset file input
+        event.target.value = '';
+    };
+
+    const handleDownloadTemplate = () => {
+        downloadTemplate();
+        setMessage('Template downloaded! Use this format for your custom rankings.');
+        setTimeout(() => setMessage(null), 3000);
+    };
+
+    const triggerFileUpload = () => {
+        fileInputRef.current?.click();
+    };
+
     const positions = [
         { value: 'qb', label: 'Quarterbacks' },
         { value: 'rb', label: 'Running Backs' },
@@ -140,8 +195,38 @@ const CustomRankings = () => {
                     <button onClick={handleExportPDF} className="export-btn">
                         Export to PDF
                     </button>
+                    <button onClick={handleExportCSV} className="export-btn">
+                        Export to CSV
+                    </button>
+                    <button onClick={triggerFileUpload} className="import-btn">
+                        Import CSV
+                    </button>
+                    <button onClick={handleDownloadTemplate} className="template-btn">
+                        Download Template
+                    </button>
+                    <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept=".csv"
+                        onChange={handleImportCSV}
+                        style={{ display: 'none' }}
+                    />
                 </div>
             </div>
+
+            {error && (
+                <div className="error-message">
+                    {error}
+                    <button onClick={() => setError(null)} className="close-btn">×</button>
+                </div>
+            )}
+
+            {message && (
+                <div className="success-message">
+                    {message}
+                    <button onClick={() => setMessage(null)} className="close-btn">×</button>
+                </div>
+            )}
 
             <div className="tabs">
                 {positions.map(pos => (
