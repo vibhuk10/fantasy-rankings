@@ -36,12 +36,12 @@ function App() {
             <div className="App">
                 <Header />
                 <nav className="app-navigation">
-                    <Link to="/" className="nav-link">Player Rankings</Link>
-                    <Link to="/custom-rankings" className="nav-link">Custom Rankings</Link>
+                    <Link to="/" className="nav-link">Custom Rankings</Link>
+                    <Link to="/rankings" className="nav-link">Player Rankings</Link>
                 </nav>
                 <Switch>
-                    <Route exact path="/" component={MainRankings} />
-                    <Route path="/custom-rankings" component={CustomRankings} />
+                    <Route exact path="/" component={CustomRankings} />
+                    <Route path="/rankings" component={MainRankings} />
                 </Switch>
             </div>
         </Router>
